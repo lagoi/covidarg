@@ -14,7 +14,6 @@ Entre Ríos	21	4	0	17
 Santa Cruz	40	0	0	40
 Tucumán	30	0	4	26
 Corrientes	31	2	0	29
-Distrito	Confirmados	Recuperados	Fallecidos	Activos
 Neuquén	88	0	4	84
 Santiago del Estero	12	0	0	12
 Mendoza	59	2	4	53
