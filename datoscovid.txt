@@ -1,24 +1,24 @@
 Distrito	Confirmados	Recuperados	Fallecidos	Activos
-Total del país	2941	622	134	2185
-Ciudad de Buenos Aires	706	301	41	364
-Buenos Aires	873	120	51	702
-Río Negro	127	7	2	118
-Córdoba	260	38	8	214
-San Luis	11	0	0	11
-Santa Fe	222	27	2	193
-Chaco	253	56	10	187
-Tierra del Fuego	122	36	0	86
+Total del país	3288	844	159	2286
+Ciudad de Buenos Aires	800	313	48	439
+Buenos Aires	1036	127	58	851
+Río Negro	165	7	6	152
+Córdoba	264	38	10	216
+San Luis	11	6	0	5
+Santa Fe	230	27	2	201
+Chaco	270	60	11	199
+Tierra del Fuego	124	40	0	84
 Jujuy	5	3	0	2
 Salta	3	0	0	3
 Entre Ríos	22	10	0	12
-Santa Cruz	40	5	0	35
-Tucumán	30	3	4	23
-Corrientes	31	2	0	29
-Neuquén	99	2	4	93
+Santa Cruz	41	5	0	36
+Tucumán	35	3	4	28
+Corrientes	34	5	0	29
+Neuquén	103	2	4	97
 Santiago del Estero	12	3	0	9
-Mendoza	72	5	7	60
+Mendoza	74	5	8	61
 Misiones	5	0	0	5
 La Pampa	5	0	0	5
 San Juan	2	0	0	2
-La Rioja	39	2	3	34
+La Rioja	45	2	5	38
 Chubut	2	0	0	1
