@@ -22,7 +22,8 @@ La Pampa	5	5	0	0
 San Juan	2	0	0	2
 La Rioja	55	2	6	47
 Chubut	3	0	0	3
-
+Catamarca 0 0 0 0
+Formosa 0 0 0 0
 
 
 
