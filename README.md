@@ -1,6 +1,6 @@
 # covidarg
  Updated information about Covid19 in Argentina.
- Información actualizada sobre el Covid19 en Argentina.
+ 
  List of files with updated information on the evolution of the Covid-19 in the Argentine Republic.
 
 * casosarg.csv -> Number of infections per day
