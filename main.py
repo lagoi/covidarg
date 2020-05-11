@@ -6,7 +6,7 @@ from copy import deepcopy
 from shapely.geometry import Polygon, MultiPolygon
 from bokeh.io import show, output_file
 from bokeh.io.doc import curdoc
-from bokeh.models import HoverTool, ColumnDataSource, Tabs, Panel, Select, GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter
+from bokeh.models import HoverTool, Paragraph, ColumnDataSource, Tabs, Panel, Select, CheckboxButtonGroup, GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter
 from bokeh.plotting import figure
 from bokeh.palettes import Spectral11, brewer
 from bokeh.layouts import layout
@@ -14,8 +14,7 @@ from bokeh.layouts import layout
 ###### Extract Data ######
 
 # Data ref: https://www.argentina.gob.ar/coronavirus/informe-diario/abril2020
-url = "https://raw.githubusercontent.com/tobiascanavesi/covidarg/master/datoscovid.txt"
-data = pd.read_csv(url, sep = "\t", header = "infer", index_col="Distrito")
+data = pd.read_csv('datoscovid.txt', sep = "\t", header = "infer", index_col="Distrito")
 #Correccion de mal formateo de los datos y compatibilidad con el mapa del ign
 data = data.rename(index={'Ciudad de Buenos Aires': 'Ciudad Autónoma de Buenos Aires', 
     'Tierra del Fuego': 'Tierra del Fuego, Antártida e Islas del Atlántico Sur',
@@ -49,12 +48,9 @@ for i in range(arg.shape[0]):
     arg.geometry[i] = arg.geometry[i].simplify(tolerance=0.05, preserve_topology=False)
 
 
-url = "https://raw.githubusercontent.com/tobiascanavesi/covidarg/master/casosarg.csv"
-casos_arg = pd.read_csv(url, sep = ",", header = 0, names=("dias","casos"))
+casos_arg = pd.read_csv('casosarg.csv', sep = ",", header = 0, names=("dias","casos"))
 
-url = "https://raw.githubusercontent.com/tobiascanavesi/covidarg/master/predict5.csv"
-casos_arg_predict = pd.read_csv(url, sep = ",", header = 0, names=("dias","casos"))
-
+casos_arg_predict = pd.read_csv('predict5.csv', sep = ",", header = 0, names=("dias","casos"))
 
 mayores_65 = pd.read_csv("data/mayores65.txt", sep = ",")
 arg = pd.merge(arg, mayores_65, on="nam")
@@ -86,7 +82,7 @@ def tabMapWithSelectAndUpdate(arg: pd.DataFrame):
                                                                                'Activos',
                                                                                'Mayores de 65'])
 
-    select2 = Select(title='Dato en Circulos:', value='Recuperados', options=['Casos Confirmados',
+    select2 = CheckboxButtonGroup(active=[1], labels=['Casos Confirmados',
                                                                                'Recuperados',
                                                                                'Fallecidos', 
                                                                                'Activos',
@@ -95,22 +91,24 @@ def tabMapWithSelectAndUpdate(arg: pd.DataFrame):
     def update_plot(attr, old, new):    
         # The input cr is the criteria selected from the select box
         cr1 = select1.value
-        cr2 = select2.value
+        cr2 = select2.active
         fields = {  'Casos Confirmados': 'Confirmados',
                 'Recuperados': 'Recuperados',
                 'Fallecidos': 'Fallecidos', 
                 'Activos': 'Activos',
                 'Mayores de 65': 'Mayores_de_65'
                 }
+        fields2 = ['Confirmados2','Recuperados2','Fallecidos2', 'Activos2', 'Mayores_de_652']
         input_field1 = fields[cr1]
-        input_field2 = fields[cr2] + '2'
+        input_fields2 = [fields2[index] for index in cr2]
     
-        map_arg = make_map(input_field1, input_field2)
+        map_arg = make_map(input_field1, input_fields2)
         l.children.pop()
         l.children.append(map_arg)
 
+
     # Create a plotting function
-    def make_map(field_name1, field_name2):    
+    def make_map(field_name1, field_names2):    
         # Set the format of the colorbar
         min_range = 0
         max_range = max(arg[field_name1])
@@ -153,7 +151,18 @@ def tabMapWithSelectAndUpdate(arg: pd.DataFrame):
             line_color = 'black', line_width = 0.25, fill_alpha = 1)
         
         #Add circles renderer to figure.
-        map_arg.circle("lon","lat",source=geosource, fill_alpha=0.5, fill_color = "#000000",
+        for field_name2 in field_names2:
+            if field_name2 == "Confirmados2":
+                color='#0000ff'
+            elif field_name2 == "Recuperados2":
+                color='#00ff00'
+            elif field_name2 == "Fallecidos2":
+                color='#ff0000'
+            elif field_name2 == "Activos2":
+                color='#ffff00'
+            else:
+                color='#000000'
+            map_arg.circle("lon","lat",source=geosource, fill_alpha=0.5, fill_color = color,
                         line_color="#FFFFFF", line_width=2, line_alpha=0.5,radius=field_name2)
 
         # Specify color bar layout.
@@ -174,12 +183,16 @@ def tabMapWithSelectAndUpdate(arg: pd.DataFrame):
 
     # Attach function to select
     select1.on_change('value', update_plot)
-    select2.on_change('value', update_plot)
+    select2.on_change('active', update_plot)
 
     # Call the plotting function
-    map_arg = make_map('Confirmados', 'Recuperados2')
+    map_arg = make_map('Confirmados', ['Recuperados2'])
+
+    paragraph1 = Paragraph(text="""Datos en circulos:""",
+        width=600)
 
     l = layout([    [select1],
+                    [paragraph1],
                     [select2],
                     [map_arg]
                 ]) 
