@@ -1,0 +1,26 @@
+"nam","Mayores_de_65"
+"Total del país",3979032
+"Ciudad Autónoma de Buenos Aires",452768
+"Buenos Aires",1626878
+"Catamarca",28251
+"Chaco",72374
+"Chubut",36175
+"Córdoba",356179
+"Corrientes",76912
+"Entre Ríos",123585
+"Formosa",36687
+"Jujuy",47601
+"La Pampa",34745
+"La Rioja",23387
+"Mendoza",174622
+"Misiones",67961
+"Neuquén",35198
+"Río Negro",52485
+"Salta",83304
+"San Juan",58500
+"San Luis",36715
+"Santa Cruz",13395
+"Santa Fe",355169
+"Santiago del Estero",66245
+"Tierra del Fuego, Antártida e Islas del Atlántico Sur",4561
+"Tucumán",115335
