@@ -61,14 +61,6 @@ arg = pd.merge(arg, centros, on="nam")
 
 ###### Bokeh ######
 
-logo = Div(text="""<img src="https://raw.githubusercontent.com/Caerisse/caerisse.github.io/master/logo.png" 
-    alt="logo_image_missing">""", width=100, height=100)
-credits = Div(text="""* Predicciones realizadas mediante el uso de redes neuronales.</br></br>
-* Utilizando los datos del Ministerio de Salud de la Nación.</br></br>
-* Fuente CENSO 2010, INDEC.
-""", width=400, height=100)
-
-
 def tabMapWithSelectAndUpdate(arg: pd.DataFrame):
     arg['Confirmados2'] = arg['Confirmados']/1000
     arg['Recuperados2'] = arg['Recuperados']/1000
@@ -177,13 +169,28 @@ def tabMapWithSelectAndUpdate(arg: pd.DataFrame):
         map_arg.add_layout(color_bar, 'right')
 
         # Add hover tool
-        hover_map = HoverTool(tooltips = [ ('Provincia','@nam'),
-                               ('Casos Confirmados', '@Confirmados'),
-                               ('Recuperados', '@Recuperados'),
-                               ('Fallecidos', '@Fallecidos'),
-                               ('Activos', '@Activos'),
-                               ('Habitantes Mayores de 65', '@Mayores_de_65')
-                               ],
+        hover_map = HoverTool(tooltips = """
+                                    <div class="plot-tooltip">
+                                        <div>
+                                            <h5>@nam</h5>
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Casos Confirmados: </span>@Confirmados
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Recuperados: </span>@Recuperados
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Fallecidos: </span>@Fallecidos
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Activos: </span>@Activos
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Habitantes Mayores de 65: </span>@Mayores_de_65
+                                        </div>
+                                    </div>
+                                    """,
                                renderers=[patches])
         # Add the hover tool to the graph
         map_arg.add_tools(hover_map)
@@ -199,13 +206,12 @@ def tabMapWithSelectAndUpdate(arg: pd.DataFrame):
     paragraph1 = Paragraph(text="""Datos en circulos:""",
         width=600)
 
-    l = layout([    [logo, credits],
-                    [select1],
+    l = layout([    [select1],
                     [paragraph1],
                     [select2],
                     [map_arg]
                 ]) 
-    tab = Panel(child=l,title="Mapa Actual")
+    tab = Panel(child=l,title="Mapa Actual",name='mapa_actual')
     return tab
 
 
@@ -240,15 +246,35 @@ def tabCasosXDia(casos_arg: pd.DataFrame, casos_arg_predict: pd.DataFrame):
 
     casos_dia.legend.location="top_left"
 
-    hover1 = HoverTool(  tooltips = [('Dia', '@dias{%d-%B-%Y}'),
-                                    ('Casos Confirmados', '@casos_x'),
-                                    ('Casos Nuevos', '@casos_z1')],
+    hover1 = HoverTool(  tooltips = """ 
+                                    <div class="plot-tooltip">
+                                        <div>
+                                            <h5>@dias{%d-%B-%Y}</h5>
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Casos Confirmados: </span>@casos_x
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Casos Nuevos: </span>@casos_z1
+                                        </div>
+                                    </div>
+                                    """,
                         mode='vline',
                         formatters={'@dias': 'datetime'},
                         renderers = [gliph1])
-    hover2 = HoverTool(  tooltips = [('Dia', '@dias{%d-%B-%Y}'),
-                                    ('Casos Predichos', '@casos_y'),
-                                    ('Casos Nuevos Predichos', '@casos_z2')],
+    hover2 = HoverTool(  tooltips = """ 
+                                    <div class="plot-tooltip">
+                                        <div>
+                                            <h5>@dias{%d-%B-%Y}</h5>
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Casos Confirmados: </span>@casos_y
+                                        </div>
+                                        <div>
+                                            <span style="font-weight: bold;">Casos Nuevos: </span>@casos_z2
+                                        </div>
+                                    </div>
+                                    """,
                         mode='vline',
                         formatters={'@dias': 'datetime'},
                         renderers = [gliph2])
@@ -257,24 +283,19 @@ def tabCasosXDia(casos_arg: pd.DataFrame, casos_arg_predict: pd.DataFrame):
     casos_dia.xaxis.formatter = DatetimeTickFormatter(days="%d-%B-%Y")
 
     # Create Tab
-    l = layout([[logo, credits],[casos_dia]])
-    tab = Panel(child=l, title = 'Evolucion Diaria')
+    l = layout( [[casos_dia]])
+    tab = Panel(child=l, title = 'Evolucion Diaria', name='evolucion_diaria')
     return tab
 
 
 
 
-output_file("index.html")
 
 tab_list = []
 tab_list.append(tabCasosXDia(casos_arg, casos_arg_predict))
 tab_list.append(tabMapWithSelectAndUpdate(arg))
 
-#for field in ['Confirmados','Recuperados','Fallecidos', 'Activos', 'Mayores_de_65']:
-#    tab_list.append(tabMapNotInteractive(arg,field))
-
-tabs = Tabs(tabs=tab_list)
+tabs = Tabs(tabs=tab_list, name='tabs')
 
 curdoc().add_root(tabs)
 curdoc().title = "Covid Argentina"
-#show(tabs)

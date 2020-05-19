@@ -1,0 +1,46 @@
+{% extends base %}
+
+{% block preamble %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat|Quicksand');
+        body {
+            font-family: "Quicksand";
+        }
+        .bk-root {
+            font-family: "Quicksand" !important;
+        }
+        .plot-tooltip {
+            margin: 10px;
+        }
+        .slick-header-columns, .slick-header-column {
+            background-color: #DDDDDD !important;
+            background-image: none !important;
+        }
+    </style>
+
+{% endblock %}
+
+{% block contents%}
+    <div class="container">
+        <div class="row my-4">
+            <div class="col-3">
+                <img    src="https://raw.githubusercontent.com/Caerisse/caerisse.github.io/master/logo.png" 
+                        alt="logo_image_missing">
+            </div>
+            <div class="col-9">
+                <p>
+                    Predicciones realizadas mediante el uso de redes neuronales</br>
+                    utilizando los datos del Ministerio de Salud de la Nación.</br>
+                    Fuente CENSO 2010, INDEC.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {{ embed(roots.tabs) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
