@@ -13,7 +13,7 @@ from bokeh.layouts import layout
 ###### Extract Data ######
 
 # Data ref: https://www.argentina.gob.ar/coronavirus/informe-diario/abril2020
-data = pd.read_csv('datoscovid.txt', sep = "\t", header = "infer", index_col="Distrito")
+data = pd.read_csv('datoscovid.txt', sep = "\t", header = "infer", index_col="Distrito", thousands='.')
 #Correccion de mal formateo de los datos y compatibilidad con el mapa del ign
 data = data.rename(index={'Ciudad de Buenos Aires': 'Ciudad Autónoma de Buenos Aires', 
     'Tierra del Fuego': 'Tierra del Fuego, Antártida e Islas del Atlántico Sur',
