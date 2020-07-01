@@ -1,6 +1,6 @@
 Distrito	Confirmados	Fallecidos
 Buenos Aires	31639	577
-Catamarca 0 0 0 0
+Catamarca 0 0
 Chaco	2031	97
 Chubut	128	1
 Ciudad de Buenos Aires	27103	509
@@ -22,7 +22,7 @@ Santa Cruz	51	0
 Santa Fe	421	4
 Santiago del Estero	24	0
 Tierra del Fuego	149	1
-Total del país	64530	1.310
+Total del país	64530	1310
 Tucumán	72	5
 
 
